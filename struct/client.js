@@ -30,7 +30,7 @@ class Client {
   //LoadCommands
   loadCommands(dir, cmd){
     try{
-			const props = require(`.${commandPath}${path.sep}${commandName}`)
+     const props = require(`.${commandPath}${path.sep}${commandName}`)
       this.commands.set(props.name, props)
       props.aliases.forEach(alias => {
         this.aliases.set(alias, props.name)
