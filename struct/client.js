@@ -1,6 +1,7 @@
 const {Client, Collection, Intents} = require("discord.js")
-
-class Client {
+const config = require("../config/config")
+const path = require("path")
+class Bot extends Client {
   constructor () {
     super({
 			intents: [
@@ -18,28 +19,27 @@ class Client {
     //modules
    this.commands = new Collection()
    this.aliases = new Collection()
-   this.logger = require(".. /helpers/logger")
+   this.logger = require("../helpers/logger")
+    this.config = require("../config/config")
+    this.functions = require("../helpers/functions")
   }
   //Functions
-
-  //Login
-  login(){
-    this.login(process.env.TOKEN)
-  }
   
   //LoadCommands
-  loadCommands(dir, cmd){
+  loadCommand(dir, cmd){
     try{
-     const props = require(`.${commandPath}${path.sep}${commandName}`)
+      const props = require(`.${dir}${path.sep}${cmd}`)
       this.commands.set(props.name, props)
       props.aliases.forEach(alias => {
         this.aliases.set(alias, props.name)
       })
       return false;
     } catch (e) {
-      this.logger.log("Unable to load command : "+ cmd, "error")
+      this.logger.log("Unable to load command : "+ cmd + "\n" + e, "error")
     }
   }
 
   //Events
 }
+
+module.exports = Bot;
